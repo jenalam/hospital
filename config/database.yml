@@ -5,22 +5,22 @@
 #   gem 'sqlite3'
 #
 default: &default
-adapter: mysql2
-encoding: utf8
-database: hospitalsim
-username: hospitalsim
-password: hospitalsim
-host: hospitalsim.cavokxomn4av.us-west-2.rds.amazonaws.com
-port: 3306
+ adapter: mysql2
+  encoding: utf8
+  database: hospitalsim
+  username: hospitalsim
+  password: hospitalsim
+  host: hospitalsim.cavokxomn4av.us-west-2.rds.amazonaws.com
+  port: 3306
 
-development:
-adapter: mysql2
-encoding: utf8
-database: hospitalsim
-username: hospitalsim
-password: hospitalsim
-host: hospitalsim.cavokxomn4av.us-west-2.rds.amazonaws.com
-port: 3306
+#development:
+#adapter: mysql2
+#encoding: utf8
+#database: hospitalsim
+#username: hospitalsim
+#password: hospitalsim
+#host: hospitalsim.cavokxomn4av.us-west-2.rds.amazonaws.com
+#port: 3306
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -31,11 +31,11 @@ pool: 5
 timeout: 5000
 database: db/test.sqlite3
 
-production:
-adapter: mysql2
-encoding: utf8
-database: hospitalsim
-username: hospitalsim
-password: hospitalsim
-host: hospitalsim.cavokxomn4av.us-west-2.rds.amazonaws.com
-port: 3306
+#production:
+#adapter: mysql2
+#encoding: utf8
+#database: hospitalsim
+#username: hospitalsim
+#password: hospitalsim
+#host: hospitalsim.cavokxomn4av.us-west-2.rds.amazonaws.com
+#port: 3306
