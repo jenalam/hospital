@@ -111,6 +111,10 @@ th, td {
   transition: all 0.3 ease;
   cursor: pointer;
 }
+
+.form button a {
+    color: #fff4e6;
+}
 .button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;

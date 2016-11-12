@@ -3,12 +3,21 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'pages#hospitalsim'
+
+  #set the index page / root url
+  root 'pages#login'
 
   
-  get 'hospitalsim' => 'pages#hospitalsim'
-  post 'hospitalsim' => 'pages#hospitalsim'
-  
+  get 'hospitalsim' => 'pages#login'
+  post 'hospitalsim' => 'pages#login'
+
+  get 'doctor' => 'pages#doctor'
+  get 'nurse' => 'pages#nurse'
+  get 'admin' => 'pages#admin'
+  get 'findPatient' => 'pages#find_patient'
+  get 'managePrescription' => 'pages#manage_prescriptions'
+
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
