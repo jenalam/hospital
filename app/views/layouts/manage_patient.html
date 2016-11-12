@@ -1,10 +1,39 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="main.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="landing.js" type="text/javascript"></script>
+
+</head>
 <body>
 
-<button type="button">Admit Patient</button>
-<button type="button">Remove Patient</button>
- 
+	<div class="subnav">
+		<ul class="nav nav-tabs">
+  			<li><a href="javascript:void(0)" onclick="openOption('AdmitPatient')">Admit Patient</a></li>
+  			<li><a href="javascript:void(0)" onclick="openOption('RemovePatient')">Remove Patient</a></li>
+		</ul>		
+ 	</div>
+ 	<div class="content">
+		<div id="AdmitPatient" class="option">
+  			<h3>Admit Patient</h3>
+  			<iframe src="admit_patient.html" scrolling="no"></iframe>
+		</div>
+
+		<div id="RemovePatient" class="option">
+  			<h3>Remove Patient</h3>
+  			<iframe src="remove_patient.html"></iframe>
+		</div>
+
+		<script>openOption("AdmitPatient")</script>
+	</div>
 </body>
 </html>
 
