@@ -16,6 +16,15 @@ Rails.application.routes.draw do
   get 'admin' => 'pages#admin'
   get 'findPatient' => 'pages#find_patient'
   get 'managePrescription' => 'pages#manage_prescriptions'
+  get 'usualPrescription' => 'pages#usual_treatments'
+  get 'addPrescription' => 'pages#add_prescription'
+  get 'removePrescription' => 'pages#remove_prescription'
+  get 'managePatient' => 'pages#manage_patient'
+  get 'doctorsPrescription' => 'pages#doctors_prescription'
+  get 'issueMedication' => 'pages#issue_medication'
+  get 'patientProfile' => 'pages#patient_profile'
+
+
 
 
   # Example of regular route:
