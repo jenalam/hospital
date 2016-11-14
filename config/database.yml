@@ -1,34 +1,34 @@
 
-#default: &default
-#  adapter: mysql2
-#  database: hospitalsim
-#  username: hospitalsim
-#  password: hospitalsim
-#  host: hospitalsim.cavokxomn4av.us-west-2.rds.amazonaws.com
-#  port: 3306
-#
-#development:
-#  adapter: mysql2
-#  database: hospitalsim
-#  username: hospitalsim
-#  password: hospitalsim
-#  host: hospitalsim.cavokxomn4av.us-west-2.rds.amazonaws.com
-#  port: 3306
 default: &default
   adapter: mysql2
   database: hospitalsim
-  username: root
-  password: root
-  host: localhost
+  username: hospitalsim
+  password: hospitalsim
+  host: hospitalsim.cavokxomn4av.us-west-2.rds.amazonaws.com
   port: 3306
 
 development:
   adapter: mysql2
   database: hospitalsim
-  username: root
-  password: root
-  host: localhost
+  username: hospitalsim
+  password: hospitalsim
+  host: hospitalsim.cavokxomn4av.us-west-2.rds.amazonaws.com
   port: 3306
+#default: &default
+ # adapter: mysql2
+  #database: hospitalsim
+  #username: root
+  #password: root
+  #host: localhost
+  #port: 3306
+
+#development:
+ # adapter: mysql2
+  #database: hospitalsim
+  #username: root
+  #password: root
+  #host: localhost
+  #port: 3306
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
