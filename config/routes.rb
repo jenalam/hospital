@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   post 'hospitalsim' => 'pages#login'
 
   get 'makequery' => 'makequery#querysend'
+  post 'addvalue' => 'addvalue#insert'
 
   get 'doctor' => 'pages#doctor'
   get 'nurse' => 'pages#nurse'

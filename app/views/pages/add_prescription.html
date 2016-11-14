@@ -15,24 +15,29 @@
   <script type="text/javascript">
     function handleClick() {
       var careCardNo = $('input[name=care-card-number]').val();
-      var medName = $('input[name=mname]').val();
-      var interval = $('input[name=p_interval]').val();
-      var dosage = $('input[name=p_dosage]').val();
-      var myQuery = "INSERT INTO Prescription (cardCardNo, mname, p_dosage, p_interval) " +
-      "VALUES (" + careCardNo + ", ‘" + medName + "’, " + dosage + ", " + interval + ")";
-      execute(myQuery);
+      if (careCardNo == "") {
+        alert("You forgot to enter a Care Card Number.");
+      }
+      else {
+        var medName = $('input[name=mname]').val();
+        var interval = $('input[name=p_interval]').val();
+        var dosage = $('input[name=p_dosage]').val();
+        var eid = $('input[name=eid]').val();
+        var myQuery = "INSERT INTO Prescription (careCardNo, mname, p_dosage, p_interval, eID) " +
+        "VALUES (" + careCardNo + ", '" + medName + "', " + dosage + ", " + interval + ", " + eid + ")";
+        execute(myQuery);
+      }
 
       return false; // prevent further bubbling of event
     }
 
     function execute(querystring) {
       $.ajax({
-          url : "/makequery?q=" + querystring,
-          type : "GET",
+          url : "/addvalue?q=" + querystring,
+          type : "POST",
           async : false,
-          dataType: "json",
-          success: function(data)  {
-            alert("Patient successfully added.");
+          success: function()  {
+            alert("Prescription successfully added.");
         }
         })
     }

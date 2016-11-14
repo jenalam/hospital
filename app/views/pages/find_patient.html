@@ -17,7 +17,14 @@
       var careCardNo = $('input[name=care-card-number]').val();
       var firstName = $('input[name=first-name]').val();
       var lastName = $('input[name=last-name]').val();
-      var myQuery = "SELECT * FROM Patient WHERE careCardNo='" + careCardNo + "'";
+      var whereClause = "careCardNo=" + careCardNo;
+      if (careCardNo == "") {
+        whereClause = "p_lname='" + lastName + "'";
+      }
+      if (lastName == "") {
+        whereClause = "p_fname='" + firstName + "'";
+      }
+      var myQuery = "SELECT * FROM Patient WHERE " + whereClause;
       execute(myQuery);
 
       return false; // prevent further bubbling of event
@@ -79,6 +86,7 @@
     </tr>
   </thead>
   <tbody id="tableBody">
+    
   </tbody>
 </table>
 
