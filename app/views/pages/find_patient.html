@@ -21,7 +21,7 @@
       if (careCardNo == "") {
         whereClause = "p_lname='" + lastName + "'";
       }
-      if (lastName == "") {
+      if (lastName == "" && careCardNo == "") {
         whereClause = "p_fname='" + firstName + "'";
       }
       var myQuery = "SELECT * FROM Patient WHERE " + whereClause;
