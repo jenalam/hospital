@@ -17,24 +17,42 @@
 
 <p>Give medication to a patient.</p>
 
-<form action="">
+<% if not @errors.nil? and not @errors.empty?%>
+  <div id="error_explanation">
+    <h3>
+      Save failed
+    </h3>
+    <ul>
+      <% @errors.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% elsif @success %>
+  <h3> 
+    Save succeeded
+  </h3>
+<% end %>
+  
+
+<form action="/issueMedication" method="post">
   Care Card Number:<br>
-  <input type="text" name="eid" value="">
+  <input type="text" name="careCardNo" value="">
   <br>
   Medication:<br>
-  <input type="text" name="eid" value="">
+  <input type="text" name="mname" value="">
   <br>
   Date:<br>
-  <input type="text" name="eid" value="">
+  <input type="text" name="di_date" value="">
   <br>
   Time:<br>
-  <input type="text" name="eid" value="">
+  <input type="text" name="time_hours" value="">
   <br>
   Dosage given (mg):<br>
-  <input type="text" name="eid" value="">
+  <input type="text" name="d_dosage" value="">
   <br>
   Your Employee ID:<br>
-  <input type="text" name="eid" value="">
+  <input type="text" name="eID" value="">
   <br>
   <br>
   <input type="submit" value="Submit" class="button">
