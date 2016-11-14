@@ -1,6 +1,6 @@
 class MakequeryController < ApplicationController
   require 'json'
-  def query
+  def querysend
       @results = Array.new
       @connection = ActiveRecord::Base.connection
       query = params[:query]
