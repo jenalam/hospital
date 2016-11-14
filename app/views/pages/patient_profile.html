@@ -9,90 +9,138 @@
 
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      if((window.location.href).indexOf('?') != -1) {
+        var queryString = (window.location.href).substr((window.location.href).indexOf('?') + 1);
+        var careCardNo = (queryString.split('='))[1];
+        var myQuery = "SELECT * FROM Patient NATURAL JOIN Prescription WHERE careCardNo='" + careCardNo + "'";
+        execute(myQuery);
+        var myHistoryQuery = "SELECT * FROM DrugIntakeEvent WHERE careCardNo='" + careCardNo + "'";
+        executeHistory(myHistoryQuery);
+      }
+    });
+
+    function execute(querystring) {
+      $.ajax({
+          url : "/makequery?q=" + querystring,
+          type : "GET",
+          async : false,
+          dataType: "json",
+          success: function(data)  {
+          for (var i = 0; i < data.length; i++) {
+    	      var curr = data[i]
+            $("#ccn").append("<td>" + curr.careCardNo + "</td>");
+            $("#fname").append("<td>" + curr.p_fname + "</td>");
+            $("#lname").append("<td>" + curr.p_lname + "</td>");
+            $("#cond").append("<td>" + curr.p_condition + "</td>");
+            $("#pnum").append("<td>" + curr.phone_number + "</td>");
+            $("#bnum").append("<td>" + curr.bID + "</td>");
+
+            var prescriptString = "<tr><td>" + JSON.stringify(curr.mname) + "</td><td>" +
+            JSON.stringify(curr.p_date) + "</td><td>" + JSON.stringify(curr.p_interval) +
+            "</td><td>" + JSON.stringify(curr.p_dosage) + "</td><td>" + JSON.stringify(curr.last_taken) +
+            "</td><td>" + JSON.stringify(curr.last_taken) + "</td></tr>";
+
+            $("#prescription-info").append(prescriptString);
+          }
+        }
+        })
+    }
+
+    function executeHistory(querystring) {
+      $.ajax({
+          url : "/makequery?q=" + querystring,
+          type : "GET",
+          async : false,
+          dataType: "json",
+          success: function(data)  {
+          for (var i = 0; i < data.length; i++) {
+    	      var curr = data[i]
+
+            var drugintakeString = "<tr><td>" + JSON.stringify(curr.mname) + "</td><td>" +
+            JSON.stringify(curr.di_date) + "</td><td>" + JSON.stringify(curr.eID) +
+            "</td><td>" + JSON.stringify(curr.d_dosage) + "</td></tr>";
+
+            $("#intake-history").append(drugintakeString);
+          }
+        }
+        })
+    }
+
+    function getNextDose(lastTaken, interval) {
+
+    }
+  </script>
 <body>
 
 <h4>Basic Information:</h4>
 <table id="basic-info">
   <tr>
-    <td>Care Card Number:</td>
-    <td>1203 349 222</td>
+    <td id="ccn">Care Card Number:</td>
+
   </tr>
   <tr>
-    <td>First Name:</td>
-    <td>Jones</td>
+    <td id="fname">First Name:</td>
+
   </tr>
   <tr>
-    <td>Last Name:</td>
-    <td>Smith</td>
+    <td id="lname">Last Name:</td>
+
   </tr>
   <tr>
-    <td>Condition:</td>
-    <td>Broken Leg</td>
+    <td id="cond">Condition:</td>
+
   </tr>
   <tr>
-    <td>Phone Number:</td>
-    <td>604-930-2034</td>
+    <td id="pnum">Phone Number:</td>
+
   </tr>
 </table>
 
 <h4>Bed:</h4>
 <table id="bed-info">
   <tr>
-    <td>Bed:</td>
-    <td>3</td>
+    <td id="bnum">Bed:</td>
+
   </tr>
   <tr>
-    <td>Room:</td>
-    <td>10</td>
+    <td id="rnum">Room:</td>
+
   </tr>
 </table>
 
 <h4>Prescriptions:</h4>
-<table id="prescription-info">
-  <tr>
-    <th>Medication</th>
-    <th>Date Issued</th>
-    <th>Interval (hours)</th>
-    <th>Dosage (mg)</th>
-    <th>Last Taken</th>
-    <th>Next Dose</th>
-  </tr>
-  <tr>
-    <td>Amoxacillin</td>
-    <td>Oct. 31, 2016</td>
-    <td>12</td>
-    <td>30</td>
-    <td>Nov. 22, 2016 8:53pm</td>
-    <td>Nov. 23, 2016 8:53am</td>
-  </tr>
+<table>
+  <thead>
+    <tr>
+      <th>Medication</th>
+      <th>Date Issued</th>
+      <th>Interval (hours)</th>
+      <th>Dosage (mg)</th>
+      <th>Last Taken</th>
+      <th>Next Dose</th>
+    </tr>
+  </thead>
+  <tbody id="prescription-info">
+
+  </tbody>
 </table>
 
 <h4>Drug Intake History:</h4>
-<table id="intake-history">
-  <tr>
-    <th>Medication</th>
-    <th>Taken On</th>
-    <th>Nurse</th>
-    <th>Dosage (mg)</th>
-  </tr>
-  <tr>
-    <td>Amoxacillin</td>
-    <td>Nov. 22, 2016 8:53pm</td>
-    <td>Maureen Williams</td>
-    <td>30mg</td>
-  </tr>
-  <tr>
-    <td>Amoxacillin</td>
-    <td>Nov. 22, 2016 7:01am</td>
-    <td>Maureen Williams</td>
-    <td>30mg</td>
-  </tr>
-  <tr>
-    <td>Hydrocodone</td>
-    <td>Oct. 10, 2016 7:00am</td>
-    <td>Coretta Scott</td>
-    <td>15mg</td>
-  </tr>
+<table>
+  <thead>
+    <tr>
+      <th>Medication</th>
+      <th>Taken On</th>
+      <th>Nurse</th>
+      <th>Dosage (mg)</th>
+    </tr>
+  </thead>
+  <tbody id="intake-history">
+
+  </tbody>
 </table>
 </body>
 </html>

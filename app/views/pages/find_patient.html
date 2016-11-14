@@ -37,7 +37,7 @@
             var stringElem = "<tr><td>" + JSON.stringify(curr.careCardNo) + "</td><td>" +
             JSON.stringify(curr.p_fname) + "</td><td>" + JSON.stringify(curr.p_lname) +
             "</td><td>" + JSON.stringify(curr.p_condition) + "</td><td>" + JSON.stringify(curr.phone_number) +
-            "</td><td><a href='#'>Profile</a></td></tr>";
+            "</td><td><a href='/patientProfile?ccn=" + curr.careCardNo + "'>Profile</a></td></tr>";
 
             $("#tableBody").append(stringElem);
           }
