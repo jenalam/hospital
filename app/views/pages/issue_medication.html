@@ -25,7 +25,7 @@
       var timeHours = $('input[name=time_hours]').val();
       var dosage = $('input[name=d_dosage]').val();
       var myQuery = "INSERT INTO DrugIntakeEvent (careCardNo, mname, eID, di_date, time_hours, d_dosage) " +
-      "VALUES (" + careCardNo + ", '" + medName + "', " + eid + ", " + di_date + ", " + timeHours + ", " + dosage + ")";
+      "VALUES (" + careCardNo + ", '" + medName + "', " + eid + ", '" + di_date + "', " + timeHours + ", " + dosage + ")";
       execute(myQuery);
     }
 
