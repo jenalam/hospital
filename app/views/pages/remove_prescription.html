@@ -10,17 +10,44 @@
 
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript">
+    function handleClick() {
+      var careCardNo = $('input[name=care-card-number]').val();
+      var medName = $('input[name=mname]').val();
+			if (careCardNo == "") {
+				alert("You didn't enter a Care Card Number.");
+			}
+			else {
+				var myQuery = "DELETE CASCADE FROM Prescription WHERE careCardNo=" + careCardNo;
+	      execute(myQuery);
+			}
+      return false; // prevent further bubbling of event
+    }
+
+    function execute(querystring) {
+      $.ajax({
+          url : "/makequery?q=" + querystring,
+          type : "GET",
+          async : false,
+          dataType: "json",
+          success: function(data)  {
+            alert("Prescription successfully removed.");
+        }
+        })
+    }
+  </script>
 </head>
 <body>
 
 <p>Remove a prescription.</p>
 
-<form action="">
+<form action="javascript:handleClick()">
   Care Card Number:<br>
-  <input type="text" name="eid" value="">
+  <input type="text" name="care-card-number" value="">
   <br>
   Medication:<br>
-  <input type="text" name="eid" value="">
+  <input type="text" name="mname" value="">
   <br>
   <br>
   <input type="submit" value="Submit" class="button">
