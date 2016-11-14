@@ -23,9 +23,20 @@ function execute(querystring) {
       contentType: "application/json"}).done(function(data) {
       var response = JSON.stringify(data);
       var obj = JSON.parse(response);
+      var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
       while(obj[i] !== NULL)) {
         var item = obj[i];
+        
 
+        // Insert a row in the table at the last row
+        var newRow   = tableRef.insertRow(tableRef.rows.length);
+
+        // Insert a cell in the row at index 0
+        var newCell  = newRow.insertCell(0);
+
+        // Append a text node to the cell
+        var newText  = document.createTextNode(item);
+        newCell.appendChild(newText);
         i++;
       }
     })
