@@ -20,13 +20,12 @@ function execute(querystring) {
   $.ajax({
       url : "/makequery?q=" + querystring,
       type : "GET",
-      contentType: "application/json"}).done(function(data) {
-      var response = JSON.stringify(data);
-      var obj = JSON.parse(response);
+      async : false,
+      dataType: "json",
+      success: function(data)  {
       var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
-      while(obj[i] !== NULL)) {
-        var item = obj[i];
-        
+      for (var i = 0; i < data.length; i++) {
+	      var curr = data[i]
 
         // Insert a row in the table at the last row
         var newRow   = tableRef.insertRow(tableRef.rows.length);
@@ -39,5 +38,6 @@ function execute(querystring) {
         newCell.appendChild(newText);
         i++;
       }
+    }
     })
 }
