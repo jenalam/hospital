@@ -23,8 +23,26 @@
         var interval = $('input[name=p_interval]').val();
         var dosage = $('input[name=p_dosage]').val();
         var eid = $('input[name=eid]').val();
-        var myQuery = "INSERT INTO Prescription (careCardNo, mname, p_dosage, p_interval, eID) " +
-        "VALUES (" + careCardNo + ", '" + medName + "', " + dosage + ", " + interval + ", " + eid + ")";
+
+        var today = new Date();
+        var d = today.getDate();
+        var m = today.getMonth()+1;
+        var Y = today.getFullYear();
+
+        if(d<10) {
+            d='0'+d
+        } 
+
+        if(m<10) {
+            m='0'+m
+        } 
+
+        today = Y+'-'+m+'-'+d;
+        
+
+
+        var myQuery = "INSERT INTO Prescription (careCardNo, mname, p_dosage, p_interval, eID, p_date) " +
+        "VALUES (" + careCardNo + ", '" + medName + "', " + dosage + ", " + interval + ", " + eid + ", '" + today +  "')";
         execute(myQuery);
       }
 
