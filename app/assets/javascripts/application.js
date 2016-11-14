@@ -20,6 +20,13 @@ function execute(query) {
   $.ajax({
       url : "/makequery?query=" + query,
       type : "GET",
-      async: false
-  });
+      contentType: "application/json"}).done(function(data) {
+      var response = JSON.stringify(data);
+      var obj = JSON.parse(response);
+      while(obj[i] !== NULL)) {
+        var item = obj[i];
+        
+        i++;
+      }
+    })
 }

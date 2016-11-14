@@ -7,9 +7,11 @@ Rails.application.routes.draw do
   #set the index page / root url
   root 'pages#login'
 
-  
+
   get 'hospitalsim' => 'pages#login'
   post 'hospitalsim' => 'pages#login'
+
+  get 'makequery' => 'makequery#query'
 
   get 'doctor' => 'pages#doctor'
   get 'nurse' => 'pages#nurse'
