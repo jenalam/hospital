@@ -14,3 +14,12 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+
+function execute(query) {
+  $.ajax({
+      url : "/makequery?query=" + query,
+      type : "GET",
+      async: false
+  });
+}
