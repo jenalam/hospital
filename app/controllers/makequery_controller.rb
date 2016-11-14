@@ -6,7 +6,7 @@ class MakequeryController < ApplicationController
       query = params[:q]
       result = @connection.exec_query(query)
       result.each do |row|
-        array.push(row)
+        @results.push(row)
       end
       respond_to do |format|
         format.json { render :json => @results }
