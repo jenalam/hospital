@@ -12,14 +12,13 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="../../assets/javascripts/landing.js" type="text/javascript"></script>
   <script type="text/javascript">
-    function handleClick(event) {
+    function handleClick() {
       var careCardNo = $('input[name=care-card-number]').val();
       var firstName = $('input[name=first-name]').val();
       var lastName = $('input[name=last-name]').val();
       var myQuery = "SELECT * FROM Patient WHERE careCardNo='" + careCardNo + "'";
       execute(myQuery);
       
-      event.preventDefault(); // disable normal form submit behavior
       return false; // prevent further bubbling of event
     }
   </script>
