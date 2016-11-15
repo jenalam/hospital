@@ -39,6 +39,9 @@
           async : false,
           success: function()  {
             alert("Drug Intake Event successfully recorded.");
+        },
+        error: function() {
+          alert("Drug Intake Event failed to be recorded.");
         }
         })
     }

@@ -31,14 +31,14 @@
 
         if(d<10) {
             d='0'+d
-        } 
+        }
 
         if(m<10) {
             m='0'+m
-        } 
+        }
 
         today = Y+'-'+m+'-'+d;
-        
+
 
 
         var myQuery = "INSERT INTO Prescription (careCardNo, mname, p_dosage, p_interval, eID, p_date) " +
@@ -56,6 +56,9 @@
           async : false,
           success: function()  {
             alert("Prescription successfully added.");
+        },
+        error: function() {
+          alert("Prescription failed to add.");
         }
         })
     }

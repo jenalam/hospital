@@ -19,7 +19,7 @@
 				alert("You didn't enter a Care Card Number.");
 			}
 			else {
-				var myQuery = "DELETE CASCADE FROM Prescription WHERE careCardNo=" + careCardNo;
+				var myQuery = "DELETE FROM Prescription WHERE careCardNo=" + careCardNo;
 	      execute(myQuery);
 			}
       return false; // prevent further bubbling of event
@@ -31,9 +31,12 @@
           type : "GET",
           async : false,
           dataType: "json",
-          success: function(data)  {
+          success: function()  {
             alert("Prescription successfully removed.");
-        }
+        	},
+				  error: function() {
+						alert("Prescription failed to remove.");
+					}
         })
     }
   </script>
