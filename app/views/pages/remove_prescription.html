@@ -31,10 +31,10 @@
           type : "GET",
           async : false,
           dataType: "json",
-          success: function()  {
+          success: function(data)  {
             alert("Prescription successfully removed.");
         	},
-				  error: function() {
+				  error: function(data) {
 						alert("Prescription failed to remove.");
 					}
         })

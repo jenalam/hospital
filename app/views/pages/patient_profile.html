@@ -57,17 +57,26 @@
           async : false,
           dataType: "json",
           success: function(data)  {
+          var dosageArray = [];
           for (var i = 0; i < data.length; i++) {
     	      var curr = data[i]
-
+            dosageArray.push(curr.d_dosage);
             var drugintakeString = "<tr><td>" + JSON.stringify(curr.mname) + "</td><td>" +
             JSON.stringify(curr.di_date) + "</td><td>" + JSON.stringify(curr.eID) +
             "</td><td>" + JSON.stringify(curr.d_dosage) + "</td></tr>";
 
             $("#intake-history").append(drugintakeString);
           }
+          //printRadio(dosageArray);
         }
         })
+    }
+
+    function printRadio(dosageArray) {
+      $('input[name=dosageopt]:checked').val();
+      for (var i = 0; i < dosageArray.length; i++) {
+
+      }
     }
 
     function getNextDose(lastTaken, interval) {
@@ -143,5 +152,14 @@
 
   </tbody>
 </table>
+
+<h4>Dosage Options:</h4>
+<form action="javascript:printRadio()">
+  <input type="radio" name="dosageopt" value="none" checked>None<br>
+  <input type="radio" name="dosageopt" value="min">Min<br>
+  <input type="radio" name="dosageopt" value="max">Max<br>
+  <input type="radio" name="dosageopt" value="avg">Average<br>
+  <input type="submit" value="Submit" class="button">
+</form>
 </body>
 </html>

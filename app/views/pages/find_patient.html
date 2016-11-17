@@ -17,6 +17,7 @@
       var careCardNo = $('input[name=care-card-number]').val();
       var firstName = $('input[name=first-name]').val();
       var lastName = $('input[name=last-name]').val();
+
       var whereClause = "careCardNo=" + careCardNo;
       if (careCardNo == "") {
         whereClause = "p_lname='" + lastName + "'";
@@ -37,18 +38,37 @@
           async : false,
           dataType: "json",
           success: function(data)  {
-          var tableRef = document.getElementById('tableBody');
-          for (var i = 0; i < data.length; i++) {
-    	      var curr = data[i]
-            console.log("<tr><td>" + JSON.stringify(curr.careCardNo));
-            var stringElem = "<tr><td>" + JSON.stringify(curr.careCardNo) + "</td><td>" +
-            JSON.stringify(curr.p_fname) + "</td><td>" + JSON.stringify(curr.p_lname) +
-            "</td><td>" + JSON.stringify(curr.p_condition) + "</td><td>" + JSON.stringify(curr.phone_number) +
-            "</td><td><a href='/patientProfile?ccn=" + curr.careCardNo + "'>Profile</a></td></tr>";
+            if ($('#condcheck').is(':checked')) {
+              var myHead = "<tr><th>Care Card Number</th><th>First Name</th><th>Last Name</th><th>Condition</th>" +
+              "<th>Phone Number</th><th>Profile</th></tr>";
+              $("#tableHead").append(myHead);
+            }
+            else {
+              var myHead = "<tr><th>Care Card Number</th><th>First Name</th><th>Last Name</th>" +
+              "<th>Phone Number</th><th>Profile</th></tr>";
+              $("#tableHead").append(myHead);
+            }
+            for (var i = 0; i < data.length; i++) {
+    	         var curr = data[i]
 
-            $("#tableBody").append(stringElem);
-          }
-        }
+               if ($('#condcheck').is(':checked')) {
+                 var stringElem = "<tr><td>" + JSON.stringify(curr.careCardNo) + "</td><td>" +
+                 JSON.stringify(curr.p_fname) + "</td><td>" + JSON.stringify(curr.p_lname) +
+                 "</td><td>" + JSON.stringify(curr.p_condition) + "</td><td>" + JSON.stringify(curr.phone_number) +
+                 "</td><td><a href='/patientProfile?ccn=" + curr.careCardNo + "'>Profile</a></td></tr>";
+
+                 $("#tableBody").append(stringElem);
+               }
+               else {
+                 var stringElem = "<tr><td>" + JSON.stringify(curr.careCardNo) + "</td><td>" +
+                 JSON.stringify(curr.p_fname) + "</td><td>" + JSON.stringify(curr.p_lname) +
+                 "</td><td>" + JSON.stringify(curr.phone_number) +
+                 "</td><td><a href='/patientProfile?ccn=" + curr.careCardNo + "'>Profile</a></td></tr>";
+
+                 $("#tableBody").append(stringElem);
+               }
+             }
+           }
         })
     }
   </script>
@@ -69,24 +89,18 @@
   Last Name:<br>
   <input type="text" name="last-name" value="">
   <br>
+  <input id="condcheck" type="checkbox" name="cond" value="yes" checked> Show Condition?<br>
   <br>
   <input type="submit" value="Submit" class="button">
 </form>
 
 <h2> Results </h2>
 <table id="myTable" style="width:100%">
-  <thead>
-    <tr>
-        <th>Care Card Number</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Condition</th>
-        <th>Phone Number</th>
-        <th>Profile</th>
-    </tr>
+  <thead id="tableHead">
+
   </thead>
   <tbody id="tableBody">
-    
+
   </tbody>
 </table>
 
