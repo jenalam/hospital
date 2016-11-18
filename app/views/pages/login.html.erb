@@ -8,6 +8,38 @@
 
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    function login(){
+      var eid = $("input").val();
+      querystring = "SELECT * FROM HospitalStaff WHERE eID = '" + eid + "'";
+      $.ajax({
+        url: "/makequery?q=" + querystring,
+        type: "GET",
+        async: false,
+        dataType: "json",
+        success: function (data) {
+          if(data.length === 0){
+            alert("Cannot login. Employee ID " + eid + " does not exist in our system.");
+          }
+          else{
+            var modID = data[0].eID % 3;
+            console.log(modID);
+            if( modID === 2 ){
+              window.location.href = "/nurse"
+            }
+            else if(modID === 0){
+              window.location.href = "/admin"
+            }
+            else{
+              window.location.href = "/doctor"
+            }
+          }
+        }
+      })
+
+    }
+  </script>
 </head>
 <body>
 
@@ -17,7 +49,7 @@
   <div class="form">
     <form class="login-form">
       <input type="text" placeholder="Employee ID"/>
-      <button><a href="/doctor">login</a></button>
+      <button><a href="javascript:void(0);" onClick="login()">login</a></button>
     </form>
   </div>
 </div>
