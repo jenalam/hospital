@@ -19,6 +19,8 @@
         execute(myQuery);
         var myHistoryQuery = "SELECT * FROM DrugIntakeEvent WHERE careCardNo='" + careCardNo + "'";
         executeHistory(myHistoryQuery);
+        var myStaffQuery = "SELECT h1.eID as n_id, h1.e_fname n_fname, h1.e_lname as n_lname, h2.eID as d_id, h2.e_fname as d_fname, h2.e_lname as d_lname FROM Patient p JOIN HospitalStaff h1 JOIN HospitalStaff h2 WHERE p.n_id = h1.eID AND p.d_id = h2.eID AND p.careCardNo='" + careCardNo + "'";
+        executeAssignedStaff(myStaffQuery);
       }
     });
 
@@ -72,6 +74,75 @@
         })
     }
 
+
+    function executeAssignedStaff(querystring) {
+        $.ajax({
+            url : "/makequery?q=" + querystring,
+            type : "GET",
+            async : false,
+            dataType: "json",
+            success: function(data)  {
+                for (var i = 0; i < data.length; i++) {
+                    var curr = data[i]
+                    $("#doctor-info").append("<td>" + curr.d_id + "</td>");
+                    $("#doctor-info").append("<td>" + curr.d_fname + "</td>");
+                    $("#doctor-info").append("<td>" + curr.d_lname + "</td>");
+                    $("#nurse-info").append("<td>" + curr.n_id + "</td>");
+                    $("#nurse-info").append("<td>" + curr.n_fname + "</td>");
+                    $("#nurse-info").append("<td>" + curr.n_lname + "</td>");
+
+                }
+            }
+        })
+    }
+
+    function changeNurse(){
+        var nurseId = prompt("Please enter the ID of the nurse to switch to", "86");
+        if(nurseId !=null){
+            querystring = "SELECT * FROM Nurse WHERE eID = '" + nurseId + "'";
+            $.ajax({
+                url : "/makequery?q=" + querystring,
+                type : "GET",
+                async : false,
+                dataType: "json",
+                success: function(data)  {
+                    if(data.length === 0){
+                        alert("There is no nurse with this ID!");
+                        changeNurse();
+                    }
+                }
+            })
+            querystring = "UPDATE Patient SET n_id = '" + nurseId + "' WHERE careCardNo = '" + $("#ccn td").text() +"'";
+            $.ajax({
+                url : "/makequery?q=" + querystring,
+                type : "GET",
+                async : false,
+                dataType: "json",
+                success: function(data)  {
+
+                }
+            })
+            querystring = "SELECT * FROM HospitalStaff WHERE eID = '" + nurseId + "'";
+            $.ajax({
+                url : "/makequery?q=" + querystring,
+                type : "GET",
+                async : false,
+                dataType: "json",
+                success: function(data)  {
+                    for (var i = 0; i < data.length; i++) {
+                        var curr = data[i];
+                        $("#nurse-info").empty();
+                        $("#nurse-info").append("<td>" + curr.eID + "</td>");
+                        $("#nurse-info").append("<td>" + curr.e_fname + "</td>");
+                        $("#nurse-info").append("<td>" + curr.e_lname + "</td>");
+
+                    }
+                }
+            })
+        }
+
+    }
+
     function printRadio(dosageArray) {
       $('input[name=dosageopt]:checked').val();
       for (var i = 0; i < dosageArray.length; i++) {
@@ -108,6 +179,32 @@
 
   </tr>
 </table>
+
+<h4>Doctor</h4>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+    </thead>
+    <tbody id="doctor-info"></tbody>
+</table>
+
+<h4>Nurse</h4>
+<table id="nurse-table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+    </tr>
+    </thead>
+    <tbody id="nurse-info"></tbody>
+</table>
+<a href ="javascript:void(0);" onClick="changeNurse()">Change Nurse</a>
+
 
 <h4>Bed:</h4>
 <table id="bed-info">
