@@ -26,6 +26,8 @@
         whereClause = "p_fname='" + firstName + "'";
       }
       var myQuery = "SELECT * FROM Patient WHERE " + whereClause;
+      $("thead th").remove();
+      $('#tableBody tr').remove();
       execute(myQuery);
 
       return false; // prevent further bubbling of event
@@ -38,10 +40,20 @@
           async : false,
           dataType: "json",
           success: function(data)  {
-            if ($('#condcheck').is(':checked')) {
+            if ($('#condcheck').is(':checked') && !$('#assignedStaffCheck').is(':checked')) {
               var myHead = "<tr><th>Care Card Number</th><th>First Name</th><th>Last Name</th><th>Condition</th>" +
               "<th>Phone Number</th><th>Profile</th></tr>";
               $("#tableHead").append(myHead);
+            }
+            else if (!$('#condcheck').is(':checked') && $('#assignedStaffCheck').is(':checked')){
+                var myHead = "<tr><th>Care Card Number</th><th>First Name</th><th>Last Name</th><th>Assigned Doctor ID</th><th>Assigned Nurse ID</th>" +
+                        "<th>Phone Number</th><th>Profile</th></tr>";
+                $("#tableHead").append(myHead);
+            }
+            else if($('#condcheck').is(':checked') && $('#assignedStaffCheck').is(':checked')){
+                var myHead = "<tr><th>Care Card Number</th><th>First Name</th><th>Last Name</th><th>Condition</th><th>Assigned Doctor ID</th><th>Assigned Nurse ID</th>" +
+                        "<th>Phone Number</th><th>Profile</th></tr>";
+                $("#tableHead").append(myHead);
             }
             else {
               var myHead = "<tr><th>Care Card Number</th><th>First Name</th><th>Last Name</th>" +
@@ -51,13 +63,28 @@
             for (var i = 0; i < data.length; i++) {
     	         var curr = data[i]
 
-               if ($('#condcheck').is(':checked')) {
+               if ($('#condcheck').is(':checked') && !$('#assignedStaffCheck').is(':checked')) {
                  var stringElem = "<tr><td>" + JSON.stringify(curr.careCardNo) + "</td><td>" +
                  JSON.stringify(curr.p_fname) + "</td><td>" + JSON.stringify(curr.p_lname) +
                  "</td><td>" + JSON.stringify(curr.p_condition) + "</td><td>" + JSON.stringify(curr.phone_number) +
                  "</td><td><a href='/patientProfile?ccn=" + curr.careCardNo + "'>Profile</a></td></tr>";
 
                  $("#tableBody").append(stringElem);
+               }
+               else if(!$('#condcheck').is(':checked') && $('#assignedStaffCheck').is(':checked')){
+                   var stringElem = "<tr><td>" + JSON.stringify(curr.careCardNo) + "</td><td>" +
+                           JSON.stringify(curr.p_fname) + "</td><td>" + JSON.stringify(curr.p_lname) +
+                           "</td><td>" + JSON.stringify(curr.d_id) + "</td><td>" + JSON.stringify(curr.n_id) + "</td><td>" + JSON.stringify(curr.phone_number) +
+                           "</td><td><a href='/patientProfile?ccn=" + curr.careCardNo + "'>Profile</a></td></tr>";
+                   $("#tableBody").append(stringElem);
+
+               }
+               else if($('#condcheck').is(':checked') && $('#assignedStaffCheck').is(':checked')){
+                   var stringElem = "<tr><td>" + JSON.stringify(curr.careCardNo) + "</td><td>" +
+                           JSON.stringify(curr.p_fname) + "</td><td>" + JSON.stringify(curr.p_lname) +
+                           "</td><td>" + JSON.stringify(curr.p_condition) + "</td><td>" + JSON.stringify(curr.d_id) + "</td><td>" + JSON.stringify(curr.n_id) + "</td><td>" + JSON.stringify(curr.phone_number) +
+                           "</td><td><a href='/patientProfile?ccn=" + curr.careCardNo + "'>Profile</a></td></tr>";
+                   $("#tableBody").append(stringElem);
                }
                else {
                  var stringElem = "<tr><td>" + JSON.stringify(curr.careCardNo) + "</td><td>" +
@@ -90,6 +117,8 @@
   <input type="text" name="last-name" value="">
   <br>
   <input id="condcheck" type="checkbox" name="cond" value="yes" checked> Show Condition?<br>
+  <br>
+  <input id="assignedStaffCheck" type="checkbox" name="cond" value="yes" checked> Show Assigned Staff?<br>
   <br>
   <input type="submit" value="Submit" class="button">
 </form>
