@@ -13,16 +13,22 @@
   <script src="../../assets/javascripts/landing.js" type="text/javascript"></script>
 
   <script type="text/javascript">
+    var careCardNo;
+    var medName;
+    var interval;
+    var dosage;
+    var eid;
+
     function handleClick() {
-      var careCardNo = $('input[name=care-card-number]').val();
+      careCardNo = $('input[name=care-card-number]').val();
       if (careCardNo == "") {
         alert("You forgot to enter a Care Card Number.");
       }
       else {
-        var medName = $('input[name=mname]').val();
-        var interval = $('input[name=p_interval]').val();
-        var dosage = $('input[name=p_dosage]').val();
-        var eid = $('input[name=eid]').val();
+        medName = $('input[name=mname]').val();
+        interval = $('input[name=p_interval]').val();
+        dosage = $('input[name=p_dosage]').val();
+        eid = $('input[name=eid]').val();
 
         var today = new Date();
         var d = today.getDate();
@@ -40,13 +46,59 @@
         today = Y+'-'+m+'-'+d;
 
 
-
-        var myQuery = "INSERT INTO Prescription (careCardNo, mname, p_dosage, p_interval, eID, p_date) " +
-        "VALUES (" + careCardNo + ", '" + medName + "', " + dosage + ", " + interval + ", " + eid + ", '" + today +  "')";
-        execute(myQuery);
+        if (validate()) {
+          var myQuery = "INSERT INTO Prescription (careCardNo, mname, p_dosage, p_interval, eID, p_date) " +
+          "VALUES (" + careCardNo + ", '" + medName + "', " + dosage + ", " + interval + ", " + eid + ", '" + today +  "')";
+          execute(myQuery);
+        }
       }
 
       return false; // prevent further bubbling of event
+    }
+
+    function validate() {
+        var isPrescriptionValid = true;
+        var myQuery = "SELECT * FROM Prescription WHERE careCardNo=" + careCardNo + " AND mname='" + medName + "'";
+            $.ajax({
+                url : "/makequery?q=" + myQuery,
+                type : "GET",
+                async : false,
+                dataType: "json",
+                success: function(data)  {
+                    if(data.length > 0){
+                        alert("There is already a Prescription for this Care Card and Medication.");
+                        isPrescriptionValid = false;
+                    }
+                }
+            });
+
+        if (!isPrescriptionValid) {
+           return false;
+        }
+
+        // Do some type-checking.
+        if (!interval.match(/^-?\d+$/)) {
+           alert("The interval should be an integer.")
+           return false; 
+        }
+
+        if (!dosage.match(/^-?\d+$/)) {
+           alert("The dosage should be an integer.")
+           return false; 
+        }
+
+        // Simulate CHECK constraint.
+        if (parseInt(interval) <= 0) {
+            alert("The interval should be > 0 (check constraint).");
+            return false;
+        }
+ 
+        if (parseInt(dosage) <= 0) {
+            alert("The dosage should be > 0 (check constraint).");
+            return false;
+        }
+ 
+        return true;
     }
 
     function execute(querystring) {
