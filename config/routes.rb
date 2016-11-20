@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   get 'issueMedication' => 'pages#issue_medication'
   post 'issueMedication' => 'pages#issue_medication_post'
   get 'patientProfile' => 'pages#patient_profile'
-
+  get 'removeRoom' => 'pages#remove_room'
 
 
 
