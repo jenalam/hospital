@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get 'usualPrescription' => 'pages#usual_treatments'
   get 'addPrescription' => 'pages#add_prescription'
   get 'removePrescription' => 'pages#remove_prescription'
+  get 'updatePrescription' => 'pages#update_prescription'
   get 'managePatient' => 'pages#manage_patient'
   get 'doctorsPrescription' => 'pages#doctors_prescription'
   get 'issueMedication' => 'pages#issue_medication'
