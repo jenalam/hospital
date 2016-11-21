@@ -15,8 +15,6 @@
   function handleClick() {
     var aggFun = $('input[name=dosageopt]:checked').val();
     var mname = $('input[name=mname]').val();
-    console.log("hit");
-    console.log(aggFun);
     if (mname == "") {
       alert("You forgot to enter a Medication Name.");
     }
@@ -34,7 +32,7 @@
       else {
         alert("There was an error with one of your inputs.");
       }
-      // $('#tableBody tr').remove();
+      $('#tableBody tr').remove();
       executeAggQuery(myAggQuery);
     }
   }
@@ -61,19 +59,6 @@
     }
   }
 
-  // function handleNested2() {
-  //   var cond = $('input[name=cond2]').val();
-  //   if (cond == "") {
-  //     alert("You forgot to enter a Condition.");
-  //   }
-  //   else {
-  //     var myQuery = "SELECT mname, count(careCardNo) AS Count FROM Prescription WHERE careCardNo IN " +
-  //     "(SELECT careCardNo FROM Patient WHERE p_condition LIKE '" + cond + "') GROUP BY mname ORDER BY Count DESC";
-  //     $('#condTable2 tr').remove();
-  //     executeCondQuery2(myQuery);
-  //   }
-  // }
-
   function executeAggQuery(querystring) {
     $.ajax({
         url : "/makequery?q=" + querystring,
@@ -83,7 +68,6 @@
         success: function(data)  {
             for (var i = 0; i < data.length; i++) {
                 var curr = data[i]
-                console.log(curr);
                 $("#tableBody").append("<tr><td>" + curr.avgd + " mg</td></tr>");
             }
         }
@@ -105,22 +89,6 @@
         }
     })
   }
-  // function executeCondQuery2(querystring) {
-  //   $.ajax({
-  //       url : "/makequery?q=" + querystring,
-  //       type : "GET",
-  //       async : false,
-  //       dataType: "json",
-  //       success: function(data)  {
-  //           for (var i = 0; i < data.length; i++) {
-  //               var curr = data[i]
-  //               console.log(curr);
-  //               $("#condTable2").append("<tr><td>" + curr.mname + ":  " + curr.Count + "</td></tr>");
-  //           }
-  //       }
-  //   })
-  // }
-
 
   </script>
 
@@ -128,7 +96,7 @@
 </head>
 <body>
 
-<p>Search information on dosages for a particular Medication</p>
+<h3>Search information on dosages for a particular Medication</h3>
 
 <form action="javascript:handleClick()">
   Medication Name:<br>
@@ -177,7 +145,7 @@
 <br>
 <br> -->
 
-<p>Search Common Treatment Options for a particular Condition:</p>
+<h3>Search Common Treatment Options for a particular Condition:</h3>
 
 <form action="javascript:handleNested()">
   Condition:<br>
