@@ -36,6 +36,19 @@
     }
   }
 
+  function handleNested() {
+    var cond = $('input[name=cond]').val();
+    if (cond == "") {
+      alert("You forgot to enter a Condition.");
+    }
+    else {
+      var myQuery = "SELECT mname, avg(p_dosage) AS avgd FROM Prescription WHERE careCardNo IN " +
+      "(SELECT careCardNo FROM Patient WHERE p_condition LIKE '%" + cond + "%') GROUP BY mname";
+
+      executeCondQuery(myQuery);
+    }
+  }
+
   function executeAggQuery(querystring) {
     $.ajax({
         url : "/makequery?q=" + querystring,
@@ -46,6 +59,21 @@
             for (var i = 0; i < data.length; i++) {
                 var curr = data[i]
                 $("#tableBody").append("<tr>" + curr.avgd + "</tr>");
+            }
+        }
+    })
+  }
+
+  function executeCondQuery(querystring) {
+    $.ajax({
+        url : "/makequery?q=" + querystring,
+        type : "GET",
+        async : false,
+        dataType: "json",
+        success: function(data)  {
+            for (var i = 0; i < data.length; i++) {
+                var curr = data[i]
+                $("#condTable").append("<tr>" + curr.mname + ":  " + curr.avgd + "</tr>");
             }
         }
     })
@@ -74,6 +102,23 @@
 <h2> Results </h2>
 <table id="myTable" style="width:100%">
   <tbody id="tableBody">
+
+  </tbody>
+</table>
+
+<br>
+<br>
+
+<form action="javascript:handleNested()">
+  Condition:<br>
+  <input type="text" name="cond" value="">
+  <br>
+  <input type="submit" value="Submit" class="button">
+</form>
+
+<h2> Results for Condition </h2>
+<table>
+  <tbody id="condTable">
 
   </tbody>
 </table>
