@@ -34,6 +34,7 @@
       else {
         alert("There was an error with one of your inputs.");
       }
+      $('#tableBody tr').remove();
       executeAggQuery(myAggQuery);
     }
   }
@@ -46,8 +47,21 @@
     else {
       var myQuery = "SELECT mname, avg(p_dosage) AS avgd FROM Prescription WHERE careCardNo IN " +
       "(SELECT careCardNo FROM Patient WHERE p_condition LIKE '" + cond + "') GROUP BY mname";
-
+      $('#condTable tr').remove();
       executeCondQuery(myQuery);
+    }
+  }
+
+  function handleNested2() {
+    var cond = $('input[name=cond2]').val();
+    if (cond == "") {
+      alert("You forgot to enter a Condition.");
+    }
+    else {
+      var myQuery = "SELECT mname, count(careCardNo) AS Count FROM Prescription WHERE careCardNo IN " +
+      "(SELECT careCardNo FROM Patient WHERE p_condition LIKE '" + cond + "') GROUP BY mname ORDER BY Count DESC";
+      $('#condTable2 tr').remove();
+      executeCondQuery2(myQuery);
     }
   }
 
@@ -82,7 +96,21 @@
         }
     })
   }
-
+  function executeCondQuery2(querystring) {
+    $.ajax({
+        url : "/makequery?q=" + querystring,
+        type : "GET",
+        async : false,
+        dataType: "json",
+        success: function(data)  {
+            for (var i = 0; i < data.length; i++) {
+                var curr = data[i]
+                console.log(curr);
+                $("#condTable2").append("<tr><td>" + curr.mname + ":  " + curr.Count + "</td></tr>");
+            }
+        }
+    })
+  }
 
 
   </script>
@@ -117,6 +145,29 @@
 
 <br>
 <br>
+<p>Search For Popular Treatment Options for Condition:</p>
+
+<form action="javascript:handleNested2()">
+  Condition:<br>
+  <input type="text" name="cond2" value="">
+  <br>
+  <input type="submit" value="Submit" class="button">
+</form>
+
+<h2> Results for Condition </h2>
+<table>
+  <thead>
+    <tr>
+      <th>Common Medications and Prescription Count</th>
+    </tr>
+  </thead>
+  <tbody id="condTable2">
+
+  </tbody>
+</table>
+<br>
+<br>
+
 <p>Search Common Treatment Options for a particular Condition:</p>
 
 <form action="javascript:handleNested()">
@@ -137,6 +188,10 @@
 
   </tbody>
 </table>
+
+<br>
+<br>
+
 
 </body>
 </html>
