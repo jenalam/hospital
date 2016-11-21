@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+
+  function handleClick() {
+    var aggFun = $('input[name=dosageopt]:checked').val();
+    var mname = $('input[name=mname]').val();
+    if (mname == "") {
+      alert("You forgot to enter a Medication Name.");
+    }
+    else {
+      var myAggQuery = ""
+      if (aggFun == "avg") {
+        myAggQuery = "SELECT avg(p_dosage) AS avgd FROM Prescription WHERE mname='" + mname + "' GROUP BY mname";
+      }
+      else if (aggFun = "min") {
+        myAggQuery = "SELECT min(p_dosage) AS avgd FROM Prescription WHERE mname='" + mname + "' GROUP BY mname";
+      }
+      else if (aggFun = "max") {
+        myAggQuery = "SELECT max(p_dosage) AS avgd FROM Prescription WHERE mname='" + mname + "' GROUP BY mname";
+      }
+      else {
+        alert("There was an error with one of your inputs.");
+      }
+      executeAggQuery(myAggQuery);
+    }
+  }
+
+  function executeAggQuery(querystring) {
+    $.ajax({
+        url : "/makequery?q=" + querystring,
+        type : "GET",
+        async : false,
+        dataType: "json",
+        success: function(data)  {
+            for (var i = 0; i < data.length; i++) {
+                var curr = data[i]
+                $("#tableBody").append("<tr>" + curr.avgd + "</tr>");
+            }
+        }
+    })
+  }
+
+
+
+  </script>
+
+  <meta charset="utf-8">
+</head>
+<body>
+
+<p>Search for a patient</p>
+
+<form action="javascript:handleClick()">
+  Medication Name:<br>
+  <input type="text" name="mname" value="">
+  <br>
+  <input type="radio" name="dosageopt" value="min">Min<br>
+  <input type="radio" name="dosageopt" value="max">Max<br>
+  <input type="radio" name="dosageopt" value="avg" checked>Average<br>
+  <input type="submit" value="Submit" class="button">
+</form>
+
+<h2> Results </h2>
+<table id="myTable" style="width:100%">
+  <tbody id="tableBody">
+
+  </tbody>
+</table>
+
+</body>
+</html>

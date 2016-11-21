@@ -21,6 +21,7 @@
         executeHistory(myHistoryQuery);
         var myStaffQuery = "SELECT h1.eID as n_id, h1.e_fname n_fname, h1.e_lname as n_lname, h2.eID as d_id, h2.e_fname as d_fname, h2.e_lname as d_lname FROM Patient p JOIN HospitalStaff h1 JOIN HospitalStaff h2 WHERE p.n_id = h1.eID AND p.d_id = h2.eID AND p.careCardNo='" + careCardNo + "'";
         executeAssignedStaff(myStaffQuery);
+
       }
     });
 
@@ -96,6 +97,8 @@
         })
     }
 
+
+
     function changeNurse(){
         var nurseId = prompt("Please enter the ID of the nurse to switch to", "86");
         if(nurseId !=null){
@@ -141,13 +144,6 @@
             })
         }
 
-    }
-
-    function printRadio(dosageArray) {
-      $('input[name=dosageopt]:checked').val();
-      for (var i = 0; i < dosageArray.length; i++) {
-
-      }
     }
 
     function getNextDose(lastTaken, interval) {
@@ -249,14 +245,5 @@
 
   </tbody>
 </table>
-
-<h4>Dosage Options:</h4>
-<form action="javascript:printRadio()">
-  <input type="radio" name="dosageopt" value="none" checked>None<br>
-  <input type="radio" name="dosageopt" value="min">Min<br>
-  <input type="radio" name="dosageopt" value="max">Max<br>
-  <input type="radio" name="dosageopt" value="avg">Average<br>
-  <input type="submit" value="Submit" class="button">
-</form>
 </body>
 </html>
