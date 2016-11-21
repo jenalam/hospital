@@ -20,7 +20,9 @@
   			<li><a href="javascript:void(0)" onclick="openOption('FindPatient')">Find Patient</a></li>
   			<li><a href="javascript:void(0)" onclick="openOption('ManagePrescription')">Manage Prescription</a></li>
   			<li><a href="javascript:void(0)" onclick="openOption('PatientHistory')">Patient History</a></li>
-		</ul>
+            <li><a href="javascript:void(0)" onclick="openOption('TwoPrescriptions')">Patients with Two Prescriptions</a></li>
+
+        </ul>
 	</div>
 
 	<div class="home-content">
@@ -37,7 +39,13 @@
 		<div id="PatientHistory" class="option">
   			<h2>Patient History</h2>
 		</div>
-		<script>openOption("FindPatient")</script>
+
+        <div id="TwoPrescriptions" class="option">
+            <h2>Search Patients with Prescriptions</h2>
+            <iframe src="twoPrescriptions" scrolling="no"></iframe>
+
+        </div>
+		<script>openOption("twoPrescriptions")</script>
 	</div>
  
 </body>

@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   post 'issueMedication' => 'pages#issue_medication_post'
   get 'patientProfile' => 'pages#patient_profile'
   get 'removeRoom' => 'pages#remove_room'
+  get 'twoPrescriptions' => 'pages#patients_with_two_prescriptions.html'
 
 
 

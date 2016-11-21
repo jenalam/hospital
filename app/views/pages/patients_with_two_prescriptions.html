@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        function handleClick() {
+            var p1 = $('input[name=p1]').val();
+            var p2 = $('input[name=p2]').val();
+            var room = $('input[name=room]').val();
+            if (p1 == "" || p2 == "") {
+                alert("Please fill out two Medication names.");
+            }
+            else {
+                var myQuery = "SELECT P.careCardNo FROM Patient P WHERE NOT EXISTS (SELECT * FROM Medication M WHERE (M.mname = '" + p1 + "' OR M.mname = '" + p2 + "') AND NOT EXISTS (SELECT Pr.mname FROM Prescription Pr WHERE Pr.careCardNo = P.careCardNo AND Pr.mname = M.mname))";
+                console.log(myQuery);
+                $('#tableBody tr').remove();
+                execute(myQuery);
+            }
+
+            return false; // prevent further bubbling of event
+        }
+        function execute(querystring) {
+            $.ajax({
+                url : "/makequery?q=" + querystring,
+                type : "GET",
+                async : false,
+                dataType: "json",
+                success: function(data)  {
+                    for (var i = 0; i < data.length; i++) {
+                        var curr = data[i]
+                        var stringElem = "<tr><td>" + JSON.stringify(curr.careCardNo) + "</td><td></tr>";
+
+                        $("#tableBody").append(stringElem);
+                    }
+                }
+            })
+        }
+    </script>
+    <meta charset="UTF-8">
+</head>
+<body>
+<p>Find Patients with Following Prescriptions</p>
+
+<form action="javascript:handleClick()">
+    Prescription #1:<br>
+    <input type="text" name="p1" value="">
+    <br>
+    Prescription #2:<br>
+    <input type="text" name="p2" value="">
+    <br>
+    <input type="submit" value="Submit" class="button">
+</form>
+
+<h2> Results </h2>
+<table id="myTable" style="width:100%">
+    <thead id="tableHead">
+        <th>Care Card #</th>
+    </thead>
+    <tbody id="tableBody">
+
+    </tbody>
+</table>
+
+</body>
+</html>
